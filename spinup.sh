@@ -2,11 +2,15 @@
 
 set -e
 
-echo "🔄 Updating and upgrading system..."
-DEBIAN_FRONTEND=noninteractive apt-get update -y && apt-get upgrade -y
+echo "🔄 Updating and upgrading system without prompts..."
+export DEBIAN_FRONTEND=noninteractive
+apt-get update -y
+apt-get -o Dpkg::Options::="--force-confdef" \
+        -o Dpkg::Options::="--force-confold" \
+        upgrade -y
 
 echo "🛠 Installing required packages..."
-DEBIAN_FRONTEND=noninteractive apt-get install -y curl wget git zsh net-tools
+apt-get install -y curl wget git zsh net-tools
 
 echo "📂 Creating Arsenal and Project directories..."
 mkdir -p ~/Arsenal ~/Project
